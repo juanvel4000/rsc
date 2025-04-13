@@ -134,23 +134,7 @@ def userlist():
     users = [row[0] for row in cursor.fetchall()]
     conn.close()
     return jsonify({"code": 200, "users": users})
-@app.route('/user/info')    
-def userinfo():
-    username = request.args.get('username')
-    if not username:
-        return jsonify({"code": 400, "message": "username is required"})
 
-    conn = sqlite3.connect(Database)
-    cursor = conn.cursor()
-    
-    cursor.execute('SELECT username, timestamp FROM users WHERE username = ?', (username,))
-    row = cursor.fetchone()
-    conn.close()
-
-    if row:
-        return jsonify({"code": 200, "username": row[0], "timestamp": row[1]})
-    else:
-        return jsonify({"code": 404, "message": "user not found"})
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, port=1819)
